@@ -1,14 +1,6 @@
 import Config
 
-# Configure your database
-config :stoic_bard, StoicBard.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "stoic_bard_dev",
-  stacktrace: true,
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+# Envy will auto-load .env file at application startup
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

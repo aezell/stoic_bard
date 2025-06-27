@@ -141,7 +141,7 @@ defmodule StoicBardWeb.ReflectionLive do
 
   defp landing_page(assigns) do
     ~H"""
-    <div class="container mx-auto px-4 py-16 text-center">
+    <div class="container mx-auto px-4 py-8 text-center">
       <div class="max-w-4xl mx-auto">
         <h1 class="text-6xl font-serif text-royal-blue mb-6">
           The Bard's Wisdom
@@ -170,7 +170,7 @@ defmodule StoicBardWeb.ReflectionLive do
     assigns = assign(assigns, :current_answer, current_answer)
 
     ~H"""
-    <div class="container mx-auto px-4 py-16">
+    <div class="container mx-auto px-4 py-8">
       <div class="max-w-3xl mx-auto">
         <!-- Progress indicator -->
         <div class="mb-8">
@@ -199,6 +199,8 @@ defmodule StoicBardWeb.ReflectionLive do
                 name="answer"
                 placeholder={@current_question.placeholder}
                 class="textarea textarea-bordered w-full h-32 text-lg"
+                phx-hook="AutoFocus"
+                id={"question-#{@current_question.id}"}
                 required
               ><%= @current_answer %></textarea>
 
@@ -229,7 +231,7 @@ defmodule StoicBardWeb.ReflectionLive do
 
   defp loading_screen(assigns) do
     ~H"""
-    <div class="container mx-auto px-4 py-16 text-center">
+    <div class="container mx-auto px-4 py-8 text-center">
       <div class="max-w-2xl mx-auto">
         <div class="loading loading-spinner loading-lg text-royal-blue mb-8"></div>
         <h2 class="text-3xl font-serif text-royal-blue mb-4">
@@ -245,7 +247,7 @@ defmodule StoicBardWeb.ReflectionLive do
 
   defp advice_display(assigns) do
     ~H"""
-    <div class="container mx-auto px-4 py-16">
+    <div class="container mx-auto px-4 py-8">
       <div class="max-w-4xl mx-auto">
         <div class="card bg-white shadow-xl">
           <div class="card-body p-8">
@@ -279,7 +281,7 @@ defmodule StoicBardWeb.ReflectionLive do
 
   defp error_display(assigns) do
     ~H"""
-    <div class="container mx-auto px-4 py-16 text-center">
+    <div class="container mx-auto px-4 py-8 text-center">
       <div class="max-w-2xl mx-auto">
         <div class="alert alert-error mb-8">
           <h2 class="text-2xl font-serif text-white mb-2">

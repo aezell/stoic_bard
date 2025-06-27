@@ -7,9 +7,12 @@ defmodule StoicBard.Application do
 
   @impl true
   def start(_type, _args) do
+    # Load environment variables from .env file in development
+    if Mix.env() in [:dev, :test] do
+      Envy.auto_load()
+    end
     children = [
       StoicBardWeb.Telemetry,
-      StoicBard.Repo,
       {DNSCluster, query: Application.get_env(:stoic_bard, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: StoicBard.PubSub},
       # Start the Finch HTTP client for sending emails

@@ -42,32 +42,28 @@ defmodule StoicBard.ClaudeAPI do
           ]
         }
 
-        headers = [
-          {"Content-Type", "application/json"},
-          {"Authorization", "Bearer #{api_key}"},
-          {"anthropic-version", "2023-06-01"}
-        ]
+        Logger.debug("Making request to Claude API")
 
-        case HTTPoison.post(@api_url, Jason.encode!(body), headers, timeout: 30_000) do
-          {:ok, %HTTPoison.Response{status_code: 200, body: response_body}} ->
-            case Jason.decode(response_body) do
-              {:ok, %{"content" => [%{"text" => advice}]}} ->
-                {:ok, advice}
+        case Req.post(@api_url,
+               json: body,
+               headers: [
+                 {"x-api-key", api_key},
+                 {"anthropic-version", "2023-06-01"}
+               ],
+               receive_timeout: 30_000
+             ) do
+          {:ok, %Req.Response{status: 200, body: %{"content" => [%{"text" => advice}]}}} ->
+            {:ok, advice}
 
-              {:ok, response} ->
-                Logger.error("Unexpected Claude API response format: #{inspect(response)}")
-                {:error, "Unexpected response format from Claude API"}
+          {:ok, %Req.Response{status: 200, body: response}} ->
+            Logger.error("Unexpected Claude API response format: #{inspect(response)}")
+            {:error, "Unexpected response format from Claude API"}
 
-              {:error, _} ->
-                Logger.error("Failed to decode Claude API response: #{response_body}")
-                {:error, "Failed to parse response from Claude API"}
-            end
-
-          {:ok, %HTTPoison.Response{status_code: status_code, body: body}} ->
-            Logger.error("Claude API error - Status: #{status_code}, Body: #{body}")
+          {:ok, %Req.Response{status: status_code, body: body}} ->
+            Logger.error("Claude API error - Status: #{status_code}, Body: #{inspect(body)}")
             handle_api_error(status_code, body)
 
-          {:error, %HTTPoison.Error{reason: reason}} ->
+          {:error, reason} ->
             Logger.error("HTTP request failed: #{inspect(reason)}")
             {:error, "Failed to connect to Claude API. Please try again."}
         end
@@ -75,7 +71,9 @@ defmodule StoicBard.ClaudeAPI do
   end
 
   defp get_api_key do
-    System.get_env("CLAUDE_API_KEY") || Application.get_env(:stoic_bard, :claude_api_key)
+    api_key = System.get_env("CLAUDE_API_KEY") || Application.get_env(:stoic_bard, :claude_api_key)
+    Logger.debug("API key present: #{if api_key, do: "yes (#{String.length(api_key)} chars)", else: "no"}")
+    api_key
   end
 
   defp format_user_answers(answers) do
@@ -123,8 +121,8 @@ defmodule StoicBard.ClaudeAPI do
         {:error, "Claude API is experiencing issues. Please try again later."}
 
       _ ->
-        case Jason.decode(body) do
-          {:ok, %{"error" => %{"message" => message}}} ->
+        case body do
+          %{"error" => %{"message" => message}} ->
             {:error, "Claude API error: #{message}"}
 
           _ ->
