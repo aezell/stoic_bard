@@ -58,7 +58,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Code Style:**
 - Follow Elixir/Phoenix conventions and .formatter.exs config
-- Import deps: `:ecto`, `:ecto_sql`, `:phoenix` in formatter
+- Import deps: `:phoenix` in formatter
 - Use LiveView HTML formatter for .heex templates
 - Module names: `StoicBard.*` for contexts, `StoicBardWeb.*` for web
 - Always check mix.exs for correct dependency versions before suggesting changes

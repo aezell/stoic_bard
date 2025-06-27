@@ -153,7 +153,7 @@ defmodule StoicBardWeb.ReflectionLive do
         </p>
         <button
           phx-click="start_reflection"
-          class="btn btn-primary bg-royal-blue hover:bg-blue-800 text-white px-8 py-4 text-lg rounded-lg shadow-lg transition-all"
+          class="bg-royal-blue hover:bg-blue-800 text-white px-8 py-4 text-lg rounded-lg shadow-lg transition-all font-semibold border-0 cursor-pointer inline-flex items-center justify-center"
         >
           Begin Today's Reflection
         </button>
@@ -178,9 +178,9 @@ defmodule StoicBardWeb.ReflectionLive do
             <span>Question {@current_index + 1} of {length(@questions)}</span>
             <span>{round((@current_index + 1) / length(@questions) * 100)}% Complete</span>
           </div>
-          <div class="progress progress-primary w-full bg-gray-200">
+          <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
             <div
-              class="progress-bar bg-royal-blue h-2 rounded"
+              class="bg-royal-blue h-full rounded-full transition-all duration-300"
               style={"width: #{(@current_index + 1) / length(@questions) * 100}%"}
             >
             </div>
@@ -188,8 +188,8 @@ defmodule StoicBardWeb.ReflectionLive do
         </div>
         
     <!-- Question -->
-        <div class="card bg-white shadow-xl">
-          <div class="card-body p-8">
+        <div class="bg-white rounded-lg shadow-xl border border-gray-100">
+          <div class="p-8">
             <h2 class="text-3xl font-serif text-royal-blue mb-6">
               {@current_question.question}
             </h2>
@@ -198,7 +198,7 @@ defmodule StoicBardWeb.ReflectionLive do
               <textarea
                 name="answer"
                 placeholder={@current_question.placeholder}
-                class="textarea textarea-bordered w-full h-32 text-lg"
+                class="w-full h-32 text-lg p-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-royal-blue focus:border-transparent resize-none font-serif leading-relaxed"
                 phx-hook="AutoFocus"
                 id={"question-#{@current_question.id}"}
                 required
@@ -209,7 +209,7 @@ defmodule StoicBardWeb.ReflectionLive do
                   <button
                     type="button"
                     phx-click="previous_question"
-                    class="btn btn-outline btn-secondary"
+                    class="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors font-semibold cursor-pointer"
                   >
                     Previous
                   </button>
@@ -217,7 +217,10 @@ defmodule StoicBardWeb.ReflectionLive do
                   <div></div>
                 <% end %>
 
-                <button type="submit" class="btn btn-primary bg-royal-blue hover:bg-blue-800">
+                <button
+                  type="submit"
+                  class="px-6 py-2 bg-royal-blue hover:bg-blue-800 text-white rounded-md font-semibold transition-colors cursor-pointer"
+                >
                   {if @current_index + 1 >= length(@questions), do: "Receive Wisdom", else: "Continue"}
                 </button>
               </div>
@@ -233,7 +236,8 @@ defmodule StoicBardWeb.ReflectionLive do
     ~H"""
     <div class="container mx-auto px-4 py-8 text-center">
       <div class="max-w-2xl mx-auto">
-        <div class="loading loading-spinner loading-lg text-royal-blue mb-8"></div>
+        <div class="inline-block w-16 h-16 border-4 border-royal-blue border-t-warm-gold rounded-full animate-spin mb-8">
+        </div>
         <h2 class="text-3xl font-serif text-royal-blue mb-4">
           The Bard considers thy words...
         </h2>
@@ -249,8 +253,8 @@ defmodule StoicBardWeb.ReflectionLive do
     ~H"""
     <div class="container mx-auto px-4 py-8">
       <div class="max-w-4xl mx-auto">
-        <div class="card bg-white shadow-xl">
-          <div class="card-body p-8">
+        <div class="bg-white rounded-lg shadow-xl border border-gray-100">
+          <div class="p-8">
             <h2 class="text-4xl font-serif text-royal-blue mb-8 text-center">
               Wisdom for Thy Journey
             </h2>
@@ -262,12 +266,15 @@ defmodule StoicBardWeb.ReflectionLive do
             </div>
 
             <div class="flex justify-center space-x-4 mt-8">
-              <button phx-click="start_over" class="btn btn-primary bg-royal-blue hover:bg-blue-800">
+              <button
+                phx-click="start_over"
+                class="px-6 py-3 bg-royal-blue hover:bg-blue-800 text-white rounded-md font-semibold transition-colors cursor-pointer"
+              >
                 Reflect Again
               </button>
               <button
                 onclick="navigator.share ? navigator.share({title: 'Wisdom from The Bard', text: document.querySelector('.prose div').innerText}) : alert('Sharing not supported')"
-                class="btn btn-outline btn-secondary"
+                class="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors font-semibold cursor-pointer"
               >
                 Share Wisdom
               </button>
@@ -283,16 +290,19 @@ defmodule StoicBardWeb.ReflectionLive do
     ~H"""
     <div class="container mx-auto px-4 py-8 text-center">
       <div class="max-w-2xl mx-auto">
-        <div class="alert alert-error mb-8">
-          <h2 class="text-2xl font-serif text-white mb-2">
+        <div class="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-md mb-8">
+          <h2 class="text-2xl font-serif text-red-800 mb-2">
             Alas, wisdom eludes us for now
           </h2>
-          <p class="text-white">
+          <p class="text-red-700">
             {@error}
           </p>
         </div>
 
-        <button phx-click="start_over" class="btn btn-primary bg-royal-blue hover:bg-blue-800">
+        <button
+          phx-click="start_over"
+          class="px-6 py-3 bg-royal-blue hover:bg-blue-800 text-white rounded-md font-semibold transition-colors cursor-pointer"
+        >
           Try Again
         </button>
       </div>

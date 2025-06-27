@@ -71,8 +71,13 @@ defmodule StoicBard.ClaudeAPI do
   end
 
   defp get_api_key do
-    api_key = System.get_env("CLAUDE_API_KEY") || Application.get_env(:stoic_bard, :claude_api_key)
-    Logger.debug("API key present: #{if api_key, do: "yes (#{String.length(api_key)} chars)", else: "no"}")
+    api_key =
+      System.get_env("CLAUDE_API_KEY") || Application.get_env(:stoic_bard, :claude_api_key)
+
+    Logger.debug(
+      "API key present: #{if api_key, do: "yes (#{String.length(api_key)} chars)", else: "no"}"
+    )
+
     api_key
   end
 

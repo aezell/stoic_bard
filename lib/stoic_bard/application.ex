@@ -11,6 +11,7 @@ defmodule StoicBard.Application do
     if Mix.env() in [:dev, :test] do
       Envy.auto_load()
     end
+
     children = [
       StoicBardWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:stoic_bard, :dns_cluster_query) || :ignore},
