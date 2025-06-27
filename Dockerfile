@@ -51,6 +51,10 @@ COPY lib lib
 
 COPY assets assets
 
+# Make sure you're installing all JS dependencies
+COPY assets/package*.json ./assets/
+RUN cd assets && npm ci --only=production=false
+
 # compile assets
 RUN mix assets.deploy
 
