@@ -1,0 +1,115 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Import Renaissance-inspired typography */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+/* Custom CSS for Stoic Bard - Renaissance-inspired design */
+
+/* Typography enhancements */
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-body-serif {
+  font-family: 'Crimson Text', serif;
+}
+
+/* Custom classes for the app */
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Elegant transitions */
+.transition-all {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Custom progress bar styling */
+.progress-bar {
+  transition: width 0.5s ease-in-out;
+}
+
+/* Parchment-like background texture */
+.bg-parchment {
+  background-color: #fefdf8;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(120, 45, 18, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(30, 58, 138, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(245, 158, 11, 0.02) 0%, transparent 50%);
+}
+
+/* Card enhancements */
+.card {
+  border: 1px solid rgba(31, 41, 55, 0.1);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+  box-shadow: 0 20px 35px -3px rgba(0, 0, 0, 0.15), 0 8px 10px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* Button enhancements */
+.btn-primary {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  border: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 15px rgba(30, 58, 138, 0.3);
+}
+
+/* Loading animation enhancement */
+.loading-spinner {
+  border-color: #1e3a8a;
+  border-top-color: #f59e0b;
+}
+
+/* Textarea styling */
+.textarea {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+/* Advice text styling */
+.advice-text {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #1f2937;
+  text-align: justify;
+}
+
+/* Renaissance ornamental elements */
+.ornament::before,
+.ornament::after {
+  content: "❦";
+  color: #f59e0b;
+  font-size: 1.5rem;
+  display: inline-block;
+  margin: 0 1rem;
+}
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 640px) {
+  .text-6xl {
+    font-size: 2.5rem;
+  }
+  
+  .text-4xl {
+    font-size: 2rem;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  .advice-text {
+    font-size: 1.1rem;
+  }
+}
