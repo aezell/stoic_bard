@@ -10,7 +10,7 @@ kill_signal = 'SIGTERM'
 [build]
 
 [env]
-  PHX_HOST = 'stoic-bard.fly.dev'
+  PHX_HOST = 'stoicbard.com'
   PORT = '8080'
 
 [http_service]
