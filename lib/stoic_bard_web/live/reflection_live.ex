@@ -250,6 +250,9 @@ defmodule StoicBardWeb.ReflectionLive do
   end
 
   defp advice_display(assigns) do
+    {wisdom, essence} = parse_advice(assigns.advice)
+    assigns = assign(assigns, wisdom: wisdom, essence: essence)
+
     ~H"""
     <div class="container mx-auto px-4 py-8">
       <div class="max-w-4xl mx-auto">
@@ -259,13 +262,22 @@ defmodule StoicBardWeb.ReflectionLive do
               Wisdom for Thy Journey
             </h2>
 
-            <div class="prose prose-lg max-w-none">
+            <div class="prose prose-lg max-w-none mb-8">
               <div class="advice-text whitespace-pre-line">
-                {@advice}
+                {@wisdom}
               </div>
             </div>
 
-            <div class="flex justify-center space-x-4 mt-8">
+            <div class="bg-gradient-to-r from-royal-blue/10 to-purple-100 p-6 rounded-lg mb-8">
+              <h3 class="text-xl font-serif text-royal-blue mb-4 text-center">
+                Essence to Share
+              </h3>
+              <div id="essence-quote" class="text-center text-lg italic font-medium text-gray-800">
+                {@essence}
+              </div>
+            </div>
+
+            <div class="flex justify-center space-x-4">
               <button
                 phx-click="start_over"
                 class="px-6 py-3 bg-royal-blue hover:bg-blue-800 text-white rounded-md font-semibold transition-colors cursor-pointer"
@@ -273,10 +285,10 @@ defmodule StoicBardWeb.ReflectionLive do
                 Reflect Again
               </button>
               <button
-                onclick="navigator.share ? navigator.share({title: 'Wisdom from The Bard', text: document.querySelector('.prose div').innerText}) : alert('Sharing not supported')"
+                onclick="navigator.share ? navigator.share({title: 'Wisdom from The Bard', text: document.getElementById('essence-quote').innerText}) : alert('Sharing not supported')"
                 class="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors font-semibold cursor-pointer"
               >
-                Share Wisdom
+                Share Essence
               </button>
             </div>
           </div>
@@ -284,6 +296,60 @@ defmodule StoicBardWeb.ReflectionLive do
       </div>
     </div>
     """
+  end
+
+  defp parse_advice(advice) do
+    # Split advice into WISDOM and ESSENCE sections
+    case String.split(advice, ["ESSENCE", "\nESSENCE"], parts: 2) do
+      [wisdom_part, essence_part] ->
+        # Clean up the wisdom section by removing "WISDOM" header if present
+        wisdom =
+          wisdom_part
+          |> String.replace(~r/^WISDOM\s*\n?/m, "")
+          |> String.trim()
+
+        # Clean up the essence section
+        essence =
+          essence_part
+          |> String.trim()
+          # Remove opening quotes (regular and smart quotes)
+          |> String.replace(~r/^["'"]*/, "")
+          # Remove closing quotes (regular and smart quotes)
+          |> String.replace(~r/["'"]*$/, "")
+
+        {wisdom, essence}
+
+      [full_advice] ->
+        # Fallback: if no ESSENCE section found, use full advice as wisdom
+        # and extract a meaningful quote as essence
+        wisdom = String.trim(full_advice)
+        essence = extract_essence_fallback(wisdom)
+        {wisdom, essence}
+    end
+  end
+
+  defp extract_essence_fallback(wisdom) do
+    # Try to extract a meaningful sentence as essence if parsing fails
+    sentences = String.split(wisdom, ~r/[.!?]+/)
+
+    # Find a sentence with stoic or Shakespearean keywords
+    meaningful_sentence =
+      Enum.find(sentences, fn sentence ->
+        String.contains?(String.downcase(sentence), [
+          "thou",
+          "thy",
+          "virtue",
+          "wisdom",
+          "heart",
+          "soul",
+          "life"
+        ])
+      end)
+
+    case meaningful_sentence do
+      nil -> "Virtue is the highest good, and wisdom thy truest guide."
+      sentence -> String.trim(sentence) <> "."
+    end
   end
 
   defp error_display(assigns) do
