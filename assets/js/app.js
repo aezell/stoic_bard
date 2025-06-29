@@ -62,3 +62,42 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+// Global function for sharing wisdom
+window.shareWisdom = function() {
+  const essenceElement = document.getElementById('essence-quote')
+  if (!essenceElement) return
+  
+  const essence = essenceElement.innerText
+  const shareText = `${essence}\n\nGet your own personalized wisdom: ${window.location.origin}`
+  
+  if (navigator.share) {
+    navigator.share({
+      title: 'Wisdom from The Bard',
+      text: shareText
+    }).catch(err => console.log('Error sharing:', err))
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(shareText).then(() => {
+      alert('Wisdom copied to clipboard!')
+    }).catch(err => {
+      console.log('Error copying to clipboard:', err)
+      fallbackShare(shareText)
+    })
+  } else {
+    fallbackShare(shareText)
+  }
+}
+
+function fallbackShare(text) {
+  const textArea = document.createElement('textarea')
+  textArea.value = text
+  document.body.appendChild(textArea)
+  textArea.select()
+  try {
+    document.execCommand('copy')
+    alert('Wisdom copied to clipboard!')
+  } catch (err) {
+    alert('Unable to share. Please copy this text manually:\n\n' + text)
+  }
+  document.body.removeChild(textArea)
+}
+

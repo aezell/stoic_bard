@@ -285,7 +285,7 @@ defmodule StoicBardWeb.ReflectionLive do
                 Reflect Again
               </button>
               <button
-                onclick="navigator.share ? navigator.share({title: 'Wisdom from The Bard', text: document.getElementById('essence-quote').innerText}) : alert('Sharing not supported')"
+                onclick="shareWisdom()"
                 class="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors font-semibold cursor-pointer"
               >
                 Share Essence
