@@ -6,7 +6,7 @@ defmodule StoicBard.ClaudeAPI do
   require Logger
 
   @api_url "https://api.anthropic.com/v1/messages"
-  @model "claude-sonnet-4-20250514"
+  @model "claude-haiku-4-5"
   @max_tokens 1000
 
   @system_prompt """
