@@ -4,7 +4,7 @@
 #
 
 app = 'stoic-bard'
-primary_region = 'atl'
+primary_region = 'dfw'
 kill_signal = 'SIGTERM'
 
 [build]
